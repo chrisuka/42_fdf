@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 21:35:01 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/21 22:43:33 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_img_data {
 }	t_img;
 
 typedef struct	s_fdf_data_container {
+	size_t	uptime;
 	int		sig;
 	void	*mlxo;
 	void	*mlx_win;

@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 21:27:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/21 22:44:38 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (print_usage());
+	v.uptime = 0;
 	v.fdf.map = parse_map_file(argv[1]);
 	v.sig = SIG_CONT;
 
