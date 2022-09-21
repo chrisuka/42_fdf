@@ -6,73 +6,78 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/04/19 21:06:44 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/09/21 16:04:27 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ROOT		::= ./
+ROOT	:= ./
+NAME	:= fdf
+BIN		= $(ROOT)$(NAME)
 
-NAME	::= fdf
-BIN		::= $(ROOT)$(NAME)
+CFUNC	=\
+main parser
 
-CFUNC	::= \
-main
+SRC_DIR		= $(ROOT)src/
+OBJ_DIR		= $(ROOT)obj/
+INC_DIR		= $(ROOT) include/ libft/
 
-SRC_DIR		::= $(ROOT)src/
-OBJ_DIR		::= $(ROOT)
-SRC			::= $(addprefix $(SRC_DIR),$(addsuffix .c,$(CFUNC)))
-OBJ			= $(SRC:.c=.o)
-INC_DIR		= $(SRC_DIR) $(LIB_DIR)/
-LIB_DIR		::= $(ROOT)libft
-LIB			::= ft
-LIBS		?= $(addprefix $(LIB_DIR)/lib,$(addsuffix .a,$(LIB)))
+SRC			= $(CFUNC:%=$(SRC_DIR)%.c)
+OBJ			= $(CFUNC:%=$(OBJ_DIR)%.o)
+INCLUDE		= $(addprefix -I , $(INC_DIR))
+RM			= rm -f
 
-CMD_INC		?= $(addprefix -I, $(INC_DIR))
+EXT_LIBS	= libft
+LIBS		= $(LIBFT) $(MLX)
+LIBFT		= -L libft -lft
+MLX			= -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
-CFLAGS		::= -Wall -Wextra -Werror
-DEBUG_FLAGS	::= -Wimplicit -Wconversion -g -fsanitize=address -fsanitize=memory
-CC			::= clang
+CFLAGS		= -Wall -Wextra -Werror
+DEBUG_FLAGS	= -Wimplicit -Wconversion -g -fsanitize=address
+CC			= clang
 
-##	BUILD ====
+.PHONY: all clean fclean re db debug so
 all: $(NAME)
-$(NAME): lib
-	@echo	$(BMSG_BIN)
-	$(CC) -c $(CFLAGS) $(SRC) $(CMD_INC)
-	$(CC) -o $(BIN) $(OBJ) -L$(LIB_DIR) -l $(LIB)
-	@echo	$(BMSG_FIN)
-lib:
-ifeq (,$(wildcard $(LIBS)))
-	@echo '\_,-->' $(BMSG_LIB)
-	make -C $(LIB_DIR)	re
-endif
-install: re clean
-debug:
-	@echo	$(BMSG_DBG)
-	$(CC) -c $(CFLAGS) $(DEBUG) $(SRC) $(CMD_INC)
-	$(CC) -o $(BIN) $(OBJ) -L$(LIB_DIR) -l $(LIB)
-	@echo	$(BMSG_FIN)
+$(NAME): $(EXT_LIBS) $(OBJ) Makefile
+	@$(CC) -o $(BIN) $(CFLAGS) $(OBJ) $(INCLUDE) $(LIBS)
+$(EXT_LIBS):
+	@make -C $@ all
 
-##	CLEAN ====
+$(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c Makefile
+	@printf	"$<    \t\t... "
+	@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
+	@echo	"DONE"
+
 clean:
-	rm -f $(OBJ)
+	@echo	"Cleaning objects..."
+	@$(RM) $(OBJ)
 fclean: clean
-	rm -f $(BIN) $(LIB)
-	rm -f libft.so
-lclean: clean
-	make -C $(LIB_DIR)	fclean
+	@echo	"Removing binaries..."
+	@$(RM) $(BIN) $(BIN:.a=.so)
 re: fclean all
 
-.PHONY: lib clean lclean fclean re install
-COL_NUL		::= \e[0;0m
-COL_HL		::= \e[0;33m
-COL_CS		::= \e[0;32m
+db: debug
+debug: CFLAGS += $(DEBUG_FLAGS)
+debug: BMSG_FORM := =DEBUG=
+debug: $(NAME)
 
-BMSG_BIN	= '$(COL_HL)' '$(NAME) :: Starting build...' '$(COL_NUL)'
-BMSG_LIB	= '$(COL_HL)' '$(LIBS) :: Compiling libraries...' '$(COL_NUL)'
-BMSG_FIN	= '$(COL_CS)' '$(NAME) :: Build success!' '$(COL_NUL)'
-BMSG_DBG	= '$(COL_HL)' '$(NAME) :: Starting =DEBUG= build...' '$(COL_NUL)'
+$(PRE_BUILD_MESSAGE):
+	@echo	$(BMSG_BIN)
+	@echo	$(BMSG_CC)
+	@echo	$(BMSG_RELINK)
+
+BMSG_BIN	= "$(COL_HL)$(NAME) :: Starting $(BMSG_FORM) build... $(COL_NUL)"
+BMSG_FORM	:= deploy
+
+BMSG_CC		= "$(COL_HL)$(NAME) :: Using $(CC) with $(CFLAGS) $(COL_NUL)"
+BMSG_RELINK	= "$(COL_HL)$(NAME) :: Compiling C objects:"
+BMSG_AR		= "$(COL_HL)$(NAME) :: Linking... { $(AR) }"
+BMSG_FIN	= "$(COL_CS)$(NAME) :: Build success! $(COL_NUL)"
+
+#COL_HL		:=\033[0;33m
+#COL_CS		:=\033[0;32m
+#COL_NUL	:=\033[0;0m
 
 ##	UTILS ====
-CMD_NORME	::= norminette -R CheckForbiddenSourceHeader
+CMD_NORME	= norminette -R CheckForbiddenSourceHeader
 norme:
-	$(CMD_NORME) $(SRC_DIR)*.c $(LIB_DIR)/*.c $(addsuffix *.h,$(INC_DIR))
+	$(CMD_NORME) $(SRC_DIR)*.c $(SRC_DIR)*.h
