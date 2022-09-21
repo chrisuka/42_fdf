@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/09/21 16:04:27 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/09/21 19:59:29 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= fdf
 BIN		= $(ROOT)$(NAME)
 
 CFUNC	=\
-main parser
+main parser app_control draw
 
 SRC_DIR		= $(ROOT)src/
 OBJ_DIR		= $(ROOT)obj/

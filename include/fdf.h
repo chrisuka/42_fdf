@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 17:21:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:35:01 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
-# include "keysym_macos.h"
 
 # define BIN_NAME	"fdf"
 # define WIN_TITLE	"FdF"
@@ -32,19 +31,25 @@
 # define SIG_EXIT	1
 
 typedef struct	s_fdf_data {
-	int		sig;
-	int		map;
-	void	*mlxo;
-	void	*mlx_win;
+	int	map;
 }	t_fdf;
 
 typedef struct	s_img_data {
-	void	*img;
+	void	*o;
 	char	*addr;
 	int		bppx;
-	int		line_length;
+	int		width;
 	int		endian;
 }	t_img;
+
+typedef struct	s_fdf_data_container {
+	int		sig;
+	void	*mlxo;
+	void	*mlx_win;
+
+	t_fdf	fdf;
+	t_img	img;
+}	t_vars;
 
 typedef union	u_argb {
 	int	hex : 32;
@@ -56,15 +61,25 @@ typedef union	u_argb {
 	}	col;
 }	t_argb;
 
+/*/ Parser /////////////*/
+
 int	parse_map_file(char *fname);
+
+/*/ App Control ////////*/
+
+int	app_update (void *vars);
+int	handle_keyhook (int keycode, void *vars);
+
+/*/ Draw  //////////////*/
+
+void	set_pixel(t_img *img, int x, int y, unsigned int color);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {
-	return (b |
-			g << (__CHAR_BIT__ * 1) |
+	return (a << (__CHAR_BIT__ * 3) |
 			r << (__CHAR_BIT__ * 2) |
-			a << (__CHAR_BIT__ * 3));
+			g << (__CHAR_BIT__ * 1) |
+			b);
 }
-
 
 #endif

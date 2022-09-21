@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 17:57:34 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:27:35 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,24 @@ static inline int	print_usage(void)
 	return (XC_ERROR);
 }
 
-static void	set_pixel(t_img *img, int x, int y, unsigned int color)
-{
-	char	*px;
-	
-	px = img->addr + (y * img->line_length + x * (img->bppx / __CHAR_BIT__));
-	*(unsigned int *)(px) = color;
-}
-
-static int	app_close(int keycode, void *vars)
-{
-	t_fdf	*fdf;
-
-	if (keycode != KB_ESC)
-		return (0);
-	fdf = (t_fdf *)(vars);
-	fdf->sig = SIG_EXIT;
-	mlx_destroy_window(fdf->mlxo, fdf->mlx_win);
-	return (XC_EXIT);
-}
-
 int	main(int argc, char **argv)
 {
-	t_fdf	fdf;
-	t_img	img;
+	//char	wname_buf[10];
+	t_vars	v;
 
 	if (argc != 2)
 		return (print_usage());
-	fdf.map = parse_map_file(argv[1]);
+	v.fdf.map = parse_map_file(argv[1]);
+	v.sig = SIG_CONT;
 
-	fdf.mlxo = mlx_init();
-	fdf.mlx_win = mlx_new_window(fdf.mlxo, WIN_RESX, WIN_RESY, WIN_TITLE);
-	img.img = mlx_new_image(fdf.mlxo, WIN_RESX, WIN_RESY);
-	img.addr = mlx_get_data_addr(img.img, &img.bppx,
-			&img.line_length, &img.endian);
+	v.mlxo = mlx_init();
+	v.mlx_win = mlx_new_window(v.mlxo, WIN_RESX, WIN_RESY, WIN_TITLE);
+	v.img.o = mlx_new_image(v.mlxo, WIN_RESX, WIN_RESY);
+	v.img.addr = mlx_get_data_addr(v.img.o, &v.img.bppx,
+			&v.img.width, &v.img.endian);
 
-	fdf.sig = SIG_CONT;
-	for (int x = 0; x < WIN_RESX; x++)
-		for (int y = 0; y < WIN_RESY; y++)
-			set_pixel(&img, x, y, argb2hex(0, x, y, 0) );
-	
-	mlx_put_image_to_window(fdf.mlxo, fdf.mlx_win, img.img, 0, 0);
-
-	mlx_key_hook(fdf.mlx_win, &app_close, &fdf);
-	//mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
-	mlx_loop(fdf.mlxo);
-
-	return (0);
+	mlx_key_hook (v.mlx_win, &handle_keyhook, &v);
+	mlx_loop_hook (v.mlxo, &app_update, &v);
+	mlx_loop (v.mlxo);
+	return (XC_EXIT);
 }
