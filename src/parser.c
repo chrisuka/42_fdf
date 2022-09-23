@@ -6,15 +6,23 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 16:01:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:12:56 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static inline int	parse_index(void)
+static inline int	parse_index(char *s)
 {
-	return (0);
+	int	val;
+
+	val = 0;
+	s = NULL;
+	/*
+	while (ft_isdigit(*s))
+		val = val * 10 + (*s - '0');
+		*/
+	return (val);
 }
 
 int	parse_map_file(char *fname)
@@ -25,7 +33,7 @@ int	parse_map_file(char *fname)
 	int		fd;
 	
 	//fd = open(fname, RD_RDONLY);
-	fd = parse_index();
+	fd = parse_index(fname);
 	fname = NULL;
 	return (0);
 	/*

@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 22:43:33 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/23 19:52:39 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ typedef union	u_argb {
 	}	col;
 }	t_argb;
 
+typedef struct	s_line {
+	int				x0;
+	int				y0;
+	int				x1;
+	int				y1;
+	unsigned int	color;
+}	t_line;
+
 /*/ Parser /////////////*/
 
 int	parse_map_file(char *fname);
@@ -74,6 +82,8 @@ int	handle_keyhook (int keycode, void *vars);
 /*/ Draw  //////////////*/
 
 void	set_pixel(t_img *img, int x, int y, unsigned int color);
+void	draw_line(t_img *img, t_line ln);
+void	draw_square(t_img *img, int x, int y, int size, unsigned int color);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {
