@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/23 19:57:07 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:44:10 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,19 @@ int	app_update (void *vars)
 		for (int y = 0; y < WIN_RESY; y++)
 			set_pixel (&v->img, x, y, argb2hex(0, x, y, 0) );
 			*/
-	t_line	ln = (t_line){10, 50, WIN_RESX - 10, WIN_RESY - 10, 0x00FF0000};
-	//set_pixel (&v->img, ln.x0, ln.y0, 0x00FFFFFF);
+
+	/*
+	t_line	ln = (t_line){10, WIN_RESY - 10, WIN_RESX - 10, 50, 0x00FF0000};
 	draw_square (&v->img, ln.x0, ln.y0, 5, 0x00FFFFFF);
 	draw_square (&v->img, ln.x1, ln.y1, 5, 0x00FFFFFF);
-	draw_line (&v->img, ln);
+	*/
+
+	draw_umbrella (&v->img, WIN_RESX / 2, WIN_RESY / 2, WIN_RESY / 2 - 10);
+	//draw_line (&v->img, ln);
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 
 	timestr = ft_itoa(v->uptime);
-	mlx_string_put (v->mlxo, v->mlx_win, 0, 0, 0x00FFFFFF, timestr);
+	mlx_string_put (v->mlxo, v->mlx_win, 10, 10, 0x00FFFFFF, timestr);
 	ft_strdel(&timestr);
 	
 	v->uptime++;

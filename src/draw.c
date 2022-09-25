@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/23 19:58:25 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:25:57 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,16 @@ void	draw_line(t_img *img, t_line ln)
 	int	dy;
 	int	dv;
 
-	dx = ln.x1 - ln.x0;
-	dy = 2 * (ln.y1 - ln.y0);
-	dv = dy - (dx >> 1);
-	while (dx)
+	dx = (ln.x1 - ln.x0);
+	dy = (ln.y1 - ln.y0) * 2;
+	if (dx > dy)
+	{
+		dx ^= dy;
+		dy ^= dx;
+		dx ^= dy;
+	}
+	dv = dx - dy;
+	while (ln.x0 < ln.x1)
 	{
 		dv -= dy;
 		if (dv < 0)
@@ -46,7 +52,33 @@ void	draw_line(t_img *img, t_line ln)
 		}
 		set_pixel (img, ln.x0, ln.y0, ln.color);
 		ln.x0 ++;
-		dx --;
+	}
+}
+
+# define UNIT_TESTS 1
+# if UNIT_TESTS == 1
+void	draw_umbrella(t_img *img, int x, int y, int radius)
+{
+	const float		d2r = M_PI / 180;
+	const float		astep = 5.0f * d2r;
+	float			angle;
+	int				steps;
+	t_line			ln;
+	unsigned int	color;
+	
+	angle = 0.0f;
+	steps = (int)round((2 * M_PI) / astep);
+	ln = (t_line){x, y, 0, 0, 0};
+	draw_square (img, x, y, 5, 0x00FFFFFF);
+	while (steps--)
+	{
+		color = argb2hex(0, rand() % 255, rand() % 255, rand() % 255);
+		ln.color = color;
+		ln.x1 = (int)round(x + sin(angle) * radius);
+		ln.y1 = (int)round(y + cos(angle) * radius);
+		draw_square (img, ln.x1, ln.y1, 5, color);
+		draw_line (img, ln);
+		angle += astep;
 	}
 }
 
@@ -70,3 +102,4 @@ void	draw_square(t_img *img, int x, int y, int size, unsigned int color)
 		}
 	}
 }
+# endif
