@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/26 13:02:09 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:32:52 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,8 @@ int	app_update (void *vars)
 		blegh = 1;
 	else return (0);
 	v = (t_vars *)(vars);
-	/*
-	for (int x = 0; x < WIN_RESX; x++)
-		for (int y = 0; y < WIN_RESY; y++)
-			set_pixel (&v->img, x, y, argb2hex(0, x, y, 0) );
-			*/
 
-	/*
-	t_line	ln = (t_line){10, WIN_RESY - 10, WIN_RESX - 10, 50, 0x00FF0000};
-	draw_square (&v->img, ln.x0, ln.y0, 5, 0x00FFFFFF);
-	draw_square (&v->img, ln.x1, ln.y1, 5, 0x00FFFFFF);
-	*/
-
-	draw_umbrella (&v->img, WIN_RESX / 2, WIN_RESY / 2, WIN_RESY / 2 - 10);
+	db_draw_unitcircle (&v->img, WIN_RESX / 2, WIN_RESY / 2, WIN_RESY / 2 - 10);
 	//draw_line (&v->img, ln);
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 

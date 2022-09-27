@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/25 13:39:52 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:48:30 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct	s_line {
 	int				y1;
 	unsigned int	color;
 }	t_line;
+typedef struct s_line	t_rect2d;
 
 /*/ Parser /////////////*/
 
@@ -83,8 +84,8 @@ int	handle_keyhook (int keycode, void *vars);
 
 void	set_pixel(t_img *img, int x, int y, unsigned int color);
 void	draw_line(t_img *img, t_line ln);
-void	draw_square(t_img *img, int x, int y, int size, unsigned int color);
-void	draw_umbrella(t_img *img, int x, int y, int radius);
+void	draw_square(t_img *img, t_rect2d, int anchor);
+void	db_draw_unitcircle(t_img *img, int x, int y, int radius);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {
