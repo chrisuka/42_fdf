@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/25 14:25:57 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:42:40 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,40 @@ void	set_pixel(t_img *img, int x, int y, unsigned int color)
 {
 	char	*px;
 	
+	if (x < 0 || x >= WIN_RESX ||
+		y < 0 || y >= WIN_RESY)
+		return ;
 	px = img->addr + (y * img->width + x * (img->bppx / __CHAR_BIT__));
 	*(unsigned int *)(px) = color;
 }
 
-/* Bresenham's line algorithm
- * use ratio of y delta / x delta as the y increment as we iterate x0 -> x1
- * fraction = (y1 - y0) / (x1 - x0)
- * if fraction is over 0.5, y + 1
- * this can be simplified: (y1 - y0) / (x1 - x0) * 2 * (x1 - x0)
- * => 2 * (y1 - y0)
+/* Draw a colored line specified by ln using the DDA
+ * (Digital Differential Analyzer) algorithm:
+ * determine the number of steps as the larger of delta x and delta y
+ *
+ * dx / steps and dy / steps will be their respective increment values
+ * each step, increment them and round to int to find the current pixel
 */
 void	draw_line(t_img *img, t_line ln)
 {
-	int	dx;
-	int	dy;
-	int	dv;
-
-	dx = (ln.x1 - ln.x0);
-	dy = (ln.y1 - ln.y0) * 2;
-	if (dx > dy)
+	double	dx;
+	double	dy;
+	double	x;
+	double	y;
+	int		steps;
+	
+	dx = (double)(ln.x1 - ln.x0);
+	dy = (double)(ln.y1 - ln.y0);
+	steps = fmax(fabs(dx), fabs(dy));
+	dx /= steps;
+	dy /= steps;
+	x = (double)(ln.x0);
+	y = (double)(ln.y0);
+	while (steps--)
 	{
-		dx ^= dy;
-		dy ^= dx;
-		dx ^= dy;
-	}
-	dv = dx - dy;
-	while (ln.x0 < ln.x1)
-	{
-		dv -= dy;
-		if (dv < 0)
-		{
-			ln.y0 ++;
-			dv += 2 * dx;
-		}
-		set_pixel (img, ln.x0, ln.y0, ln.color);
-		ln.x0 ++;
+		set_pixel (img, (int)(x), (int)(y), ln.color);
+		x += dx;
+		y += dy;
 	}
 }
 
@@ -60,7 +58,7 @@ void	draw_line(t_img *img, t_line ln)
 void	draw_umbrella(t_img *img, int x, int y, int radius)
 {
 	const float		d2r = M_PI / 180;
-	const float		astep = 5.0f * d2r;
+	const float		astep = 2.5f * d2r;
 	float			angle;
 	int				steps;
 	t_line			ln;
