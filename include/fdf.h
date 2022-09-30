@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/27 15:48:30 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/30 20:57:03 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@
 # define SIG_EXIT	1
 
 typedef struct	s_fdf_data {
-	int	map;
+	int	**map;
+	int	w;
+	int	h;
+	int	amplitude;
+	int	scale;
 }	t_fdf;
 
 typedef struct	s_img_data {
@@ -62,6 +66,12 @@ typedef union	u_argb {
 	}	col;
 }	t_argb;
 
+typedef struct	s_vector2int
+{
+	int	x;
+	int	y;
+}	t_vec2i;
+
 typedef struct	s_line {
 	int				x0;
 	int				y0;
@@ -73,19 +83,25 @@ typedef struct s_line	t_rect2d;
 
 /*/ Parser /////////////*/
 
-int	parse_map_file(char *fname);
+t_fdf	parse_map_file(char *fname);
 
 /*/ App Control ////////*/
 
 int	app_update (void *vars);
 int	handle_keyhook (int keycode, void *vars);
 
-/*/ Draw  //////////////*/
+/*/ Draw ///////////////*/
 
 void	set_pixel(t_img *img, int x, int y, unsigned int color);
 void	draw_line(t_img *img, t_line ln);
-void	draw_square(t_img *img, t_rect2d, int anchor);
+void	draw_rect(t_img *img, t_rect2d, int anchor);
 void	db_draw_unitcircle(t_img *img, int x, int y, int radius);
+
+void	draw_map(t_img *img, t_fdf fdf);
+
+/*/ Projection /////////*/
+
+t_vec2i	project_point(int x, int y, t_fdf fdf);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {

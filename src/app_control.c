@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/27 16:32:52 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/09/30 21:08:54 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,17 @@ int	app_update (void *vars)
 	else return (0);
 	v = (t_vars *)(vars);
 
-	db_draw_unitcircle (&v->img, WIN_RESX / 2, WIN_RESY / 2, WIN_RESY / 2 - 10);
-	//draw_line (&v->img, ln);
+	//db_draw_unitcircle (&v->img, WIN_RESX / 2, WIN_RESY / 2, WIN_RESY / 2 - 10);
+
+#if 1
+	const int	ox = WIN_RESX / 2;
+	const int	oy = WIN_RESY / 2;
+	t_rect2d r = (t_rect2d){ox, oy, (50 * 10), (50 * 7), 0x00AABBAA};
+	draw_rect(&v->img, r, 0);
+#endif
+
+	draw_map(&v->img, v->fdf);
+
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 
 	timestr = ft_itoa(v->uptime);
