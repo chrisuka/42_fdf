@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/09/30 17:48:04 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/09/30 23:22:16 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,28 +24,29 @@ INC_DIR		= $(ROOT) include/ libft/
 SRC			= $(CFUNC:%=$(SRC_DIR)%.c)
 OBJ			= $(CFUNC:%=$(OBJ_DIR)%.o)
 INCLUDE		= $(addprefix -I , $(INC_DIR))
-RM			= rm -f
+RM			:= rm -f
 
-EXT_LIBS	= libft
+EXT_LIBS	= libft/libft.a
 LIBS		= $(LIBFT) $(MLX)
 LIBFT		= -L libft -lft
 MLX			= -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 CFLAGS		= -Wall -Wextra -Werror
-DEBUG_FLAGS	= -Wimplicit -Wconversion -g -fsanitize=address
-CC			= clang
+DBFLAGS		= -Wimplicit -Wconversion -g -fsanitize=address
+CC			:= clang
 
 .PHONY: all clean fclean re db debug so
 all: $(NAME)
 $(NAME): $(EXT_LIBS) $(OBJ) Makefile
 	@$(CC) -o $(BIN) $(CFLAGS) $(OBJ) $(INCLUDE) $(LIBS)
-$(EXT_LIBS):
-	@make -C $@ all
 
 $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c Makefile
 	@printf	"$<    \t\t... "
 	@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 	@echo	"DONE"
+
+$(EXT_LIBS):
+	@make -C $(dir $@) all
 
 clean:
 	@echo	"Cleaning objects..."
@@ -56,7 +57,7 @@ fclean: clean
 re: fclean all
 
 db: debug
-debug: CFLAGS += $(DEBUG_FLAGS)
+debug: CFLAGS += $(DBFLAGS)
 debug: BMSG_FORM := =DEBUG=
 debug: $(NAME)
 
@@ -73,9 +74,9 @@ BMSG_RELINK	= "$(COL_HL)$(NAME) :: Compiling C objects:"
 BMSG_AR		= "$(COL_HL)$(NAME) :: Linking... { $(AR) }"
 BMSG_FIN	= "$(COL_CS)$(NAME) :: Build success! $(COL_NUL)"
 
-#COL_HL		:=\033[0;33m
-#COL_CS		:=\033[0;32m
-#COL_NUL	:=\033[0;0m
+COL_HL		:=\033[0;33m
+COL_CS		:=\033[0;32m
+COL_NUL		:=\033[0;0m
 
 ##	UTILS ====
 CMD_NORME	= norminette -R CheckForbiddenSourceHeader
