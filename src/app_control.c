@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 18:23:01 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/01 20:11:42 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_keyhook (int keycode, void *vars)
 		app_close (v);
 	v->fdf.xpos += ((keycode == ARROW_RIGHT) - (keycode == ARROW_LEFT)) * MOVE_STEP;
 	v->fdf.ypos -= ((keycode == ARROW_UP) - (keycode == ARROW_DOWN)) * MOVE_STEP;
-	v->fdf.scale -= ((keycode == KB_ASCII_I) - (keycode == KB_ASCII_O)) * SIZE_STEP;
+	v->fdf.scale += ((keycode == KB_ASCII_I) - (keycode == KB_ASCII_O)) * SIZE_STEP;
 	/*
 	ft_putnbr(keycode);
 	ft_putendl("");
@@ -44,7 +44,6 @@ int	app_update (void *vars)
 	const int	update = 1;
 	static int	drew_once = 0;
 	t_vars	*v;
-	char	*timestr;
 
 	if (drew_once)
 		return (0);
@@ -64,15 +63,13 @@ int	app_update (void *vars)
 
 	draw_map(&v->img, v->fdf);
 
-	draw_tooltip (&v->img, 0);
+	// GUI
+	draw_gui (&v->img);
+
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 
-	// GUI
+	gui_put_text (v);
 
-	timestr = ft_itoa(v->uptime);
-	mlx_string_put (v->mlxo, v->mlx_win, 10, 10, 0x00FFFFFF, timestr);
-	ft_strdel(&timestr);
-	
 	v->uptime++;
 	return (0);
 }

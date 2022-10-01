@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 18:21:11 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/01 19:22:27 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ t_vec2i	project_point(int x, int y, t_fdf fdf);
 
 /*/ GUI ////////////////*/
 
-void	draw_tooltip(t_img *img, int full);
+void	gui_put_text(t_vars *v);
+void	draw_gui(t_img *img);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {
