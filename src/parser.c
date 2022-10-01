@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/30 22:40:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/01 18:05:53 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ t_fdf	initialize_fdf_data(void)
 	fdf.map = NULL;
 	fdf.w = 0;
 	fdf.h = 0;
-	fdf.amplitude = 5;
+	fdf.xpos = 0;
+	fdf.ypos = 0;
+	fdf.amplitude = 4;
 	fdf.scale = 50;
+	fdf.projection = 0;
 	return (fdf);
 }
 

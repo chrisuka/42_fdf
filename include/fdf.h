@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/30 20:57:03 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/01 18:21:11 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,18 @@
 # define SIG_CONT	0
 # define SIG_EXIT	1
 
+# define MOVE_STEP	30
+# define SIZE_STEP	30
+
 typedef struct	s_fdf_data {
 	int	**map;
 	int	w;
 	int	h;
+	int	xpos;
+	int	ypos;
 	int	amplitude;
 	int	scale;
+	int	projection;
 }	t_fdf;
 
 typedef struct	s_img_data {
@@ -102,6 +108,10 @@ void	draw_map(t_img *img, t_fdf fdf);
 /*/ Projection /////////*/
 
 t_vec2i	project_point(int x, int y, t_fdf fdf);
+
+/*/ GUI ////////////////*/
+
+void	draw_tooltip(t_img *img, int full);
 
 static inline int	argb2hex (int a, int r, int g, int b)
 {

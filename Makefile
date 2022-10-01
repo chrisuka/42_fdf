@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/09/30 23:22:16 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/10/01 16:09:18 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= fdf
 BIN		= $(ROOT)$(NAME)
 
 CFUNC	=\
-main parser app_control draw projection
+main parser app_control draw projection gui
 
 SRC_DIR		= $(ROOT)src/
 OBJ_DIR		= $(ROOT)obj/
@@ -38,21 +38,23 @@ CC			:= clang
 .PHONY: all clean fclean re db debug so
 all: $(NAME)
 $(NAME): $(EXT_LIBS) $(OBJ) Makefile
+	@$(ECHO) $(BMSG_AR)
 	@$(CC) -o $(BIN) $(CFLAGS) $(OBJ) $(INCLUDE) $(LIBS)
+	@$(ECHO) $(BMSG_FIN)
 
 $(OBJ): $(OBJ_DIR)%.o:$(SRC_DIR)%.c Makefile
 	@printf	"$<    \t\t... "
 	@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
-	@echo	"DONE"
+	@$(ECHO)	"DONE"
 
 $(EXT_LIBS):
 	@make -C $(dir $@) all
 
 clean:
-	@echo	"Cleaning objects..."
+	@$(ECHO)	"Cleaning objects..."
 	@$(RM) $(OBJ)
 fclean: clean
-	@echo	"Removing binaries..."
+	@$(ECHO)	"Removing binaries..."
 	@$(RM) $(BIN) $(BIN:.a=.so)
 re: fclean all
 
@@ -61,10 +63,12 @@ debug: CFLAGS += $(DBFLAGS)
 debug: BMSG_FORM := =DEBUG=
 debug: $(NAME)
 
+##	UTILS ====
+ECHO	:= echo
 $(PRE_BUILD_MESSAGE):
-	@echo	$(BMSG_BIN)
-	@echo	$(BMSG_CC)
-	@echo	$(BMSG_RELINK)
+	@$(ECHO)	$(BMSG_BIN)
+	@$(ECHO)	$(BMSG_CC)
+	@$(ECHO)	$(BMSG_RELINK)
 
 BMSG_BIN	= "$(COL_HL)$(NAME) :: Starting $(BMSG_FORM) build... $(COL_NUL)"
 BMSG_FORM	:= deploy
@@ -78,7 +82,6 @@ COL_HL		:=\033[0;33m
 COL_CS		:=\033[0;32m
 COL_NUL		:=\033[0;0m
 
-##	UTILS ====
 CMD_NORME	= norminette -R CheckForbiddenSourceHeader
 norme:
 	$(CMD_NORME) $(SRC_DIR)*.c $(SRC_DIR)*.h
