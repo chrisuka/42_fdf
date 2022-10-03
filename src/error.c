@@ -6,10 +6,16 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:40:07 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/21 14:40:25 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/01 21:22:51 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
+int	perr_badmap(char *fname)
+{
+	const char	msg[] = ": bad format!\n";
+	
+	write (1, msg, sizeof(msg) - 1);
+	return (XC_ERROR);
+}

@@ -6,88 +6,67 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 18:05:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:49:15 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-#define BUFF_SIZE	128
-
-t_fdf	initialize_fdf_data(void)
+static t_fdf	initialize_fdf_data(void)
 {
 	t_fdf	fdf;
 
-	fdf.map = NULL;
+	fdf.map = NULL; // REMEMBER ME....
 	fdf.w = 0;
 	fdf.h = 0;
 	fdf.xpos = 0;
 	fdf.ypos = 0;
-	fdf.amplitude = 4;
-	fdf.scale = 50;
-	fdf.projection = 0;
+	fdf.amplitude = 0.25f;
+	fdf.scale = 25;
+	fdf.projection = 1;
 	return (fdf);
 }
 
 #if 0
-/* Find out how many rows there are and check
- * that the amount of columns is consistent,
- * then return the fd or -1 in case of error
-*/
-static inline int	open_validate(char *fname, t_fdf *fdf)
+
+static int	parse_line(char *line, int y)
 {
-	char	buf[BUFF_SIZE];
-	ssize_t	rb;
-	int		fd;
-	char	*cp;
+	t_list	*wordl;
+	t_list	*node;
+	int		x;
+
+	// first, scan for illegal characters, return error
 	
-	fd = open(fname, RD_RDONLY);
-	rb = read(fd, buf, BUFF_SIZE);
-	if (rb > 0)
+	wordl = ft_memsplit(line, " ", get_lrinfo().len);
+	x = 0;
+	while (node != NULL)
 	{
-		cp = ft_memchr(buf, '\n', BUFF_SIZE)
-		while (cp)
-		{
-			cp = ft_memchr(cp + 1, '\n', sizeof(buf) - (cp - buf));
-			fdf->h += (cp != NULL);
-		}
+		map[x][y] = ft_atoi(node->content);
+		++ x;
+		node = node->next;
+		free (wordl);
+		worldl = node;
 	}
-	close (fd);
-	fd = open(fname, RD_RDONLY);
-	return (fd);
+	return (x);
 }
 
 t_fdf	parse_map_file(char *fname)
 {
 	t_fdf	fdf;
-	t_list	*wordl;
-	int		fd;
-	int		x;
 	int		y;
 	
 	fdf = initialize_fdf_data();
-	fd = open_validate(fname, &fdf);
+	fd = open (fname, O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
-	// read until EOF
-	// strsplit, count words
-	// foreach word, atoi
 	y = 0;
-	while (y < fdf.h)
+	while (get_next_line(fd, &line) != RET_EOF)
 	{
-		wordl = ft_memsplit(buf, " ", "\n", BUFF_SIZE);
-		x = 0;
-		while (x < fdf.w)
-		{
-			fdf.map[x][y] = ft_atoi(wordl->content);
-			x ++;
-		}
-		if (fdf->w != ft_lstlen(wordl));
-			// return -1
-		ft_lstdel (wordl);
-		y ++;
+		if (parse_line (line, y++) != fdf.w)
+			return (-1);
 	}
+	// MAP NEEDS TO KNOW THE HEIGHT BEFORE MALLOCING, DAMMIT...
+	//fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	return (fdf);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:53:54 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 19:58:05 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:18:22 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,53 @@
 #define GUI_ANCHOR_BOT_L	4
 
 #define TEXT_ROWOFF			15
-#define TEXT_COLOR			0x00FFFFFF
+#define TEXT_COLOR			0x00BB80FF
 
-static inline t_rect2d	box_identity(void)
+static inline t_rect	gui_tooltip_box(void)
 {
-	t_rect2d	r;
+	t_rect	r;
 	
 	r.x0 = GUI_MARGIN;
 	r.y0 = GUI_MARGIN;
 	r.x1 = 300;
-	r.y1 = 200;
-	r.color = 0x00202020;
+	r.y1 = TEXT_ROWOFF * 14;
 	return (r);
 }
 
 void	gui_put_text(t_vars *v)
 {
 	//const char	tip_h[] = "Press [h] to show info";
+	const int	o = GUI_MARGIN + 10;
 	const char	*texts[] = {"Press [h] to hide info",
-			"Frame: "};
+			"Controls",
+			"--------",
+			"esc: quit",
+			"arrows: move camera",
+			"i/o: zoom in/out",
+			"u/d: amplitude up/down",
+			"space: toggle projection"};
+	const char	*mode_txt[] = {"[] Parallel", "<> Isometric"};
 	char		*dystr1;
 	char		*dystr2;
-	int	y;
+	int	n;
 
-	y = GUI_MARGIN + 10;
-	mlx_string_put (v->mlxo, v->mlx_win, GUI_MARGIN + 10, y, TEXT_COLOR, (char *)texts[0]);
-	y += TEXT_ROWOFF;
+	n = -1;
+	while (++n < (int)(sizeof(texts) / sizeof(char *)))
+		mlx_string_put (v->mlxo, v->mlx_win, o,
+			o + n * TEXT_ROWOFF, TEXT_COLOR, (char *)(texts[n]));
+
 	dystr1 = ft_itoa (v->uptime);
-	dystr2 = ft_strjoin (texts[1], dystr1);
-	mlx_string_put (v->mlxo, v->mlx_win, GUI_MARGIN + 10, y, TEXT_COLOR, dystr2);
+	dystr2 = ft_strjoin ("Frame: ", dystr1);
+	mlx_string_put (v->mlxo, v->mlx_win, o, o + 10 * TEXT_ROWOFF, TEXT_COLOR, dystr2);
+	mlx_string_put (v->mlxo, v->mlx_win, o, o + 11 * TEXT_ROWOFF, TEXT_COLOR, (char *)mode_txt[v->fdf.projection]);
 	ft_strdel (&dystr1);
 	ft_strdel (&dystr2);
 }
 
 void	draw_gui(t_img *img)
 {
-	t_rect2d	r;
+	t_rect	r;
 
-	r = box_identity();
-	draw_rect (img, r, GUI_ANCHOR_TOP_L);
+	r = gui_tooltip_box();
+	draw_rect (img, r, GUI_ANCHOR_TOP_L, 0x00101010);
 }

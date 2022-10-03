@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 19:22:27 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:20:34 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define SIG_EXIT	1
 
 # define MOVE_STEP	30
-# define SIZE_STEP	30
+# define SIZE_STEP	5
+# define AMP_STEP	0.25f
 
 typedef struct	s_fdf_data {
 	int	**map;
@@ -39,7 +40,7 @@ typedef struct	s_fdf_data {
 	int	h;
 	int	xpos;
 	int	ypos;
-	int	amplitude;
+	float	amplitude;
 	int	scale;
 	int	projection;
 }	t_fdf;
@@ -47,7 +48,7 @@ typedef struct	s_fdf_data {
 typedef struct	s_img_data {
 	void	*o;
 	char	*addr;
-	int		bppx;
+	int		bpp;
 	int		width;
 	int		endian;
 }	t_img;
@@ -83,9 +84,8 @@ typedef struct	s_line {
 	int				y0;
 	int				x1;
 	int				y1;
-	unsigned int	color;
 }	t_line;
-typedef struct s_line	t_rect2d;
+typedef struct s_line	t_rect;
 
 /*/ Parser /////////////*/
 
@@ -100,7 +100,7 @@ int	handle_keyhook (int keycode, void *vars);
 
 void	set_pixel(t_img *img, int x, int y, unsigned int color);
 void	draw_line(t_img *img, t_line ln);
-void	draw_rect(t_img *img, t_rect2d, int anchor);
+void	draw_rect(t_img *img, t_rect r, int anchor, unsigned int color);
 void	db_draw_unitcircle(t_img *img, int x, int y, int radius);
 
 void	draw_map(t_img *img, t_fdf fdf);
@@ -111,15 +111,12 @@ t_vec2i	project_point(int x, int y, t_fdf fdf);
 
 /*/ GUI ////////////////*/
 
+/*/ COLOR //////////////*/
+
+unsigned int	rgba_hex(int r, int g, int b, int a);
+unsigned int	hsv_hex(float h, float s, float v);
+
 void	gui_put_text(t_vars *v);
 void	draw_gui(t_img *img);
-
-static inline int	argb2hex (int a, int r, int g, int b)
-{
-	return (a << (__CHAR_BIT__ * 3) |
-			r << (__CHAR_BIT__ * 2) |
-			g << (__CHAR_BIT__ * 1) |
-			b);
-}
 
 #endif

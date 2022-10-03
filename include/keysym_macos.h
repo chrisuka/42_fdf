@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:28:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 18:08:25 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:24:29 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@
 # define ARROW_LEFT		123
 # define ARROW_RIGHT	124
 
-# define KB_ASCII_I		34
-# define KB_ASCII_O		31
+# define KB_D		2
+# define KB_R		15
+# define KB_I		34
+# define KB_O		31
+# define KB_U		32
 
 # define KB_NUM			82
 # define KB_NUM_1		83

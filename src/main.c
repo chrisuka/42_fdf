@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/09/28 19:33:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/02 23:30:19 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 	ft_strdel (&wname);
 
 	v.img.o = mlx_new_image(v.mlxo, WIN_RESX, WIN_RESY);
-	v.img.addr = mlx_get_data_addr(v.img.o, &v.img.bppx,
+	v.img.addr = mlx_get_data_addr(v.img.o, &v.img.bpp,
 			&v.img.width, &v.img.endian);
 
 	mlx_key_hook (v.mlx_win, &handle_keyhook, &v);
