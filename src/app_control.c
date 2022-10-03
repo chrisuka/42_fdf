@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 21:22:20 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:02:57 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	handle_keyhook (int key, void *vars)
 	v->fdf.ypos += ((key == ARROW_UP) - (key == ARROW_DOWN)) * MOVE_STEP;
 	v->fdf.scale += ((key == KB_I) - (key == KB_O)) * SIZE_STEP;
 	v->fdf.amplitude += ((key == KB_U) - (key == KB_D)) * AMP_STEP;
+
+	v->fdf.scale = ft_max(v->fdf.scale, 0);
 #if 0
 	ft_putnbr(key);
 	ft_putendl("");

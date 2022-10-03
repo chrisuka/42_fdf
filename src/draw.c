@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 21:17:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:36:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,10 @@ void	draw_map(t_img *img, t_fdf fdf)
 		{
 			draw_line(img, line_init(
 				project_point (x - 1, y - 1, fdf),
-				project_point (x + 0, y - 1, fdf)
-				));
+				project_point (x + 0, y - 1, fdf)));
 			draw_line(img, line_init(
 				project_point (x - 1, y - 1, fdf),
-				project_point (x - 1, y + 0, fdf)
-				));
+				project_point (x - 1, y + 0, fdf)));
 		}
 	}
 	x --;
@@ -65,15 +63,13 @@ void	draw_map(t_img *img, t_fdf fdf)
 	while (++y < fdf.h)
 		draw_line(img, line_init(
 			project_point (x, y - 1, fdf),
-			project_point (x, y + 0, fdf)
-			));
+			project_point (x, y + 0, fdf)));
 	y --;
 	x = 0;
 	while (++x < fdf.w)
 		draw_line(img, line_init(
 			project_point (x - 1, y, fdf),
-			project_point (x + 0, y, fdf)
-			));
+			project_point (x + 0, y, fdf)));
 }
 
 /* Draw a colored line specified by ln using the DDA
