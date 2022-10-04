@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:53:54 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 21:18:22 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:30:15 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	gui_put_text(t_vars *v)
 {
 	//const char	tip_h[] = "Press [h] to show info";
 	const int	o = GUI_MARGIN + 10;
-	const char	*texts[] = {"Press [h] to hide info",
+	const char	*texts[] = {//"Press [h] to hide info",
 			"Controls",
 			"--------",
 			"esc: quit",

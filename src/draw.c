@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 21:36:05 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:35:15 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	draw_map(t_img *img, t_fdf fdf)
 				project_point (x - 1, y + 0, fdf)));
 		}
 	}
-	x --;
+	x = fdf.w - 1;
 	y = 0;
 	while (++y < fdf.h)
 		draw_line(img, line_init(
 			project_point (x, y - 1, fdf),
 			project_point (x, y + 0, fdf)));
-	y --;
+	y = fdf.h - 1;
 	x = 0;
 	while (++x < fdf.w)
 		draw_line(img, line_init(
@@ -91,12 +91,12 @@ void	draw_line(t_img *img, t_line ln)
 		return ;
 	dx = (double)(ln.x1 - ln.x0);
 	dy = (double)(ln.y1 - ln.y0);
-	steps = (int)fmax(fabs(dx), fabs(dy));
+	steps = (int)(fmax(fabs(dx), fabs(dy)));
 	dx /= steps;
 	dy /= steps;
 	x = (double)(ln.x0);
 	y = (double)(ln.y0);
-	while (steps--)
+	while (steps-- >= 0)
 	{
 		set_pixel (img, (int)(x), (int)(y), 0x00FF00AA);
 		x += dx;

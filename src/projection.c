@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 15:21:15 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 19:49:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:45:05 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static t_vec2i	project_parallel(int x, int y, t_fdf fdf)
 {
-	int	ox = WIN_RESX / 2 - (fdf.w / 2 * fdf.scale);
-	int	oy = WIN_RESY / 2 - (fdf.h / 2 * fdf.scale);
+	int	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
+	int	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
 
 	return ((t_vec2i){
 		ox + x * fdf.scale * 2 + (fdf.xpos),
@@ -25,8 +25,8 @@ static t_vec2i	project_parallel(int x, int y, t_fdf fdf)
 
 static t_vec2i	project_isometric(int x, int y, t_fdf fdf)
 {
-	int	ox = WIN_RESX / 2 - (fdf.w / 2) * fdf.scale;
-	int	oy = WIN_RESY / 2 - (fdf.h / 2) * fdf.scale;
+	int	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
+	int	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
 
 	return ((t_vec2i){
 		ox + (x - y) * fdf.scale * 2 + (fdf.xpos),

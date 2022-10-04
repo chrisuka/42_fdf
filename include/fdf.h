@@ -6,18 +6,17 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 21:20:34 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:45:59 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# include "libft.h"
-# include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
+//# include "get_next_line.h"
+# include "libft.h"
 
 # define BIN_NAME	"fdf"
 # define WIN_TITLE	"FdF"

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 22:03:10 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:47:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static t_fdf	initialize_fdf_data(void)
 	fdf.h = 0;
 	fdf.xpos = 0;
 	fdf.ypos = 0;
-	fdf.amplitude = 0.25f;
+	//fdf.amplitude = 0.25f;
+	fdf.amplitude = 0.15f;
 	fdf.scale = 25;
 	fdf.projection = 1;
 	return (fdf);
@@ -29,23 +30,43 @@ static t_fdf	initialize_fdf_data(void)
 
 #if 0
 
+static int	read_height(char *fname, int *lines)
+{
+	int		fd;
+	char	buf[BUFF_SIZE];
+	ssize_t	bs;
+
+	fd = open (fname, O_RDONLY);
+	bs = 1;
+	while (bs)
+	{
+		bs = read (fd, buf, BUFF_SIZE);
+		if (bs < 0)
+			return (-1);
+		*lines += (ft_memchr(buf, '\n', bs) != NULL);
+	}
+	close (fd);
+	fd = open (fname, O_RDONLY);
+	return (fd);
+}
+
 static int	parse_line(char *line, int y)
 {
-	t_list	*wordl;
+	t_list	*wl;
 	t_list	*node;
 	int		x;
 
-	// first, scan for illegal characters, return error
-	
-	wordl = ft_memsplit(line, " ", get_lrinfo().len);
+	wl = ft_wordlist (line, " ", get_lrinfo().len);
 	x = 0;
+	node = wl;
 	while (node != NULL)
 	{
+		// first, scan for illegal characters, return error (OPTIONAL)
 		map[x][y] = ft_atoi(node->content);
 		++ x;
 		node = node->next;
-		free (wordl);
-		worldl = node;
+		free (wl);
+		wl = node;
 	}
 	return (x);
 }
@@ -56,17 +77,17 @@ t_fdf	parse_map_file(char *fname)
 	int		y;
 	
 	fdf = initialize_fdf_data();
-	fd = open (fname, O_RDONLY);
+	fd = read_height (fname, &fdf.h);
 	if (fd < 0)
-		return (-1);
+		return (-1); // return type is FDF so tick a SIG_ERROR flag instead!
+	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF)
 	{
+		fdf.map[y] = (int *)malloc(sizeof(int) * fdf.w);
 		if (parse_line (line, y++) != fdf.w)
 			return (-1);
 	}
-	// MAP NEEDS TO KNOW THE HEIGHT BEFORE MALLOCING, DAMMIT...
-	//fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	return (fdf);
 }
 
