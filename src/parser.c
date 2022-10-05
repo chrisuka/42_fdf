@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 20:49:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 21:34:02 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ static int	parse_line(char *line, int y, int **map)
 	return (x);
 }
 
-// YOU ABSOLUTE BABOON, IT IS >>>>[Y,X]<<<< NOW, PLEASE REMEMBER
-//
 t_fdf	parse_map_file(char *fname)
 {
 	t_fdf	fdf;

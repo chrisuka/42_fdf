@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 16:00:24 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:03:04 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,20 @@ t_fdf	parse_map_file(char *fname);
 
 /*/ App Control ////////*/
 
+int		on_keydown (int key, void *vars);
 int		app_update (void *vars);
 int		handle_keyhook (int keycode, void *vars);
 void	app_close (t_vars *v, int code);
 
-/*/ Draw ///////////////*/
+/*/ Draw Manager ///////*/
+
+void	draw_map(t_img *img, t_fdf fdf);
+
+/*/ Draw Utilities /////*/
 
 void	set_pixel(t_img *img, int x, int y, unsigned int color);
 void	draw_line(t_img *img, t_line ln);
 void	draw_rect(t_img *img, t_rect r, int anchor, unsigned int color);
-void	db_draw_unitcircle(t_img *img, int x, int y, int radius);
-
-void	draw_map(t_img *img, t_fdf fdf);
 
 /*/ Projection /////////*/
 
@@ -113,12 +115,12 @@ t_vec2i	project_point(int x, int y, t_fdf fdf);
 
 /*/ GUI ////////////////*/
 
-/*/ COLOR //////////////*/
+void	gui_put_text(t_vars *v);
+void	draw_gui(t_img *img);
+
+/*/ Color //////////////*/
 
 unsigned int	rgba_hex(int r, int g, int b, int a);
 unsigned int	hsv_hex(float h, float s, float v);
-
-void	gui_put_text(t_vars *v);
-void	draw_gui(t_img *img);
 
 #endif
