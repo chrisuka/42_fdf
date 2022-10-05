@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/04 15:45:59 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:00:24 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
-//# include "get_next_line.h"
 # include "libft.h"
+# include "get_next_line.h"
 
 # define BIN_NAME	"fdf"
 # define WIN_TITLE	"FdF"
@@ -28,20 +28,22 @@
 
 # define SIG_CONT	0
 # define SIG_EXIT	1
+# define SIG_ERROR	2
 
 # define MOVE_STEP	30
 # define SIZE_STEP	5
 # define AMP_STEP	0.25f
 
 typedef struct	s_fdf_data {
-	int	**map;
-	int	w;
-	int	h;
-	int	xpos;
-	int	ypos;
+	int		**map;
+	int		w;
+	int		h;
+	int		xpos;
+	int		ypos;
 	float	amplitude;
-	int	scale;
-	int	projection;
+	int		scale;
+	int		projection;
+	int		signal;
 }	t_fdf;
 
 typedef struct	s_img_data {
@@ -92,8 +94,9 @@ t_fdf	parse_map_file(char *fname);
 
 /*/ App Control ////////*/
 
-int	app_update (void *vars);
-int	handle_keyhook (int keycode, void *vars);
+int		app_update (void *vars);
+int		handle_keyhook (int keycode, void *vars);
+void	app_close (t_vars *v, int code);
 
 /*/ Draw ///////////////*/
 

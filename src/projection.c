@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 15:21:15 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 22:45:05 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:19:50 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_vec2i	project_isometric(int x, int y, t_fdf fdf)
 	return ((t_vec2i){
 		ox + (x - y) * fdf.scale * 2 + (fdf.xpos),
 		oy + (y + x) * fdf.scale + (fdf.ypos)
-		- (int)(fdf.amplitude * fdf.map[x][y] * fdf.scale)
+		- (int)(fdf.amplitude * fdf.map[y][x] * fdf.scale)
 	});
 }
 

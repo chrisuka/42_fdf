@@ -6,17 +6,17 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/04 14:35:43 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:17:45 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "keysym_macos.h"
 
-static void	app_close (t_vars *v, int code)
+void	app_close (t_vars *v, int code)
 {
-	// FREE SUM STUFF FIRST
-	mlx_destroy_window(v->mlxo, v->mlx_win);
+	if (v->mlxo && v->mlx_win)
+		mlx_destroy_window(v->mlxo, v->mlx_win);
 	exit(code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/04 18:47:31 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/05 20:49:31 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static t_fdf	initialize_fdf_data(void)
 {
 	t_fdf	fdf;
 
+	fdf.signal = SIG_CONT;
 	fdf.map = NULL; // REMEMBER ME....
 	fdf.w = 0;
 	fdf.h = 0;
@@ -28,7 +29,14 @@ static t_fdf	initialize_fdf_data(void)
 	return (fdf);
 }
 
-#if 0
+#if 1
+
+static t_fdf	abort_parse(t_fdf *fdf)
+{
+	ft_freearray ((void **)&fdf->map, fdf->h);
+	fdf->signal = SIG_ERROR;
+	return (*fdf);
+}
 
 static int	read_height(char *fname, int *lines)
 {
@@ -50,43 +58,57 @@ static int	read_height(char *fname, int *lines)
 	return (fd);
 }
 
-static int	parse_line(char *line, int y)
+static int	parse_line(char *line, int y, int **map)
 {
-	t_list	*wl;
-	t_list	*node;
+	char	**words;
 	int		x;
 
-	wl = ft_wordlist (line, " ", get_lrinfo().len);
+	words = ft_strsplit (line, ' ');
+	if (!words)
+		return (-1);
+	
 	x = 0;
-	node = wl;
-	while (node != NULL)
-	{
-		// first, scan for illegal characters, return error (OPTIONAL)
-		map[x][y] = ft_atoi(node->content);
+	while (words[x] != NULL)
 		++ x;
-		node = node->next;
-		free (wl);
-		wl = node;
+	map[y] = (int *)malloc(sizeof(int) * x);
+	x = 0;
+	while (words[x] != NULL)
+	{
+		map[y][x] = ft_atoi(words[x]);
+		++ x;
 	}
+	free (words);
 	return (x);
 }
 
+// YOU ABSOLUTE BABOON, IT IS >>>>[Y,X]<<<< NOW, PLEASE REMEMBER
+//
 t_fdf	parse_map_file(char *fname)
 {
 	t_fdf	fdf;
+	char	*line;
+	int		fd;
 	int		y;
 	
 	fdf = initialize_fdf_data();
 	fd = read_height (fname, &fdf.h);
 	if (fd < 0)
-		return (-1); // return type is FDF so tick a SIG_ERROR flag instead!
+	{
+		ft_putendl("bad file!");
+		return (abort_parse(&fdf));
+	}
 	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF)
 	{
-		fdf.map[y] = (int *)malloc(sizeof(int) * fdf.w);
-		if (parse_line (line, y++) != fdf.w)
-			return (-1);
+		if (y == 0)
+			fdf.w = ft_wordcount(line, " ");
+		if (parse_line (line, y++, fdf.map) != fdf.w)
+		{
+			ft_putendl("inconsistent width!");
+			return (abort_parse(&fdf));
+		}
+		ft_strdel (&line);
 	}
 	return (fdf);
 }
