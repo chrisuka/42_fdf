@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/10/01 21:56:48 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/10/05 20:23:15 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME	:= fdf
 BIN		= $(ROOT)$(NAME)
 
 CFUNC	=\
-main parser app_control draw projection gui color
+main parser app_control draw projection gui color \
+get_next_line
 
 SRC_DIR		= $(ROOT)src/
 OBJ_DIR		= $(ROOT)obj/
@@ -32,7 +33,7 @@ LIBFT		= -L libft -lft
 MLX			= -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 CFLAGS		= -Wall -Wextra -Werror
-DBFLAGS		= -Wimplicit -Wconversion -g -fsanitize=address
+DBFLAGS		= -g -fsanitize=address #-Wimplicit -Wconversion 
 CC			:= clang
 
 .PHONY: all clean fclean re db debug so
