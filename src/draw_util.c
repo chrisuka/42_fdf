@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 22:16:49 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:27:55 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	draw_rect(t_img *img, t_rect r, int anchor, unsigned int color)
 
 	r.x0 += offsets[anchor][0] * (r.x1 / 2);
 	r.y0 += offsets[anchor][1] * (r.y1 / 2);
-	if (!inside_frame(r.x0, r.y0) && !inside_frame(r.x1, r.y1))
+	if (!inside_frame(r.x0, r.y0))
 		return ;
 	xn = 0;
 	while (xn <= r.x1)

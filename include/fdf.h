@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 23:03:04 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:29:08 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@
 # define WIN_TITLE	"FdF"
 # define WIN_RESX	1080
 # define WIN_RESY	740
+
+# ifndef CLI_COLORS
+#  define CLI_COLORS
+#  define CGREEN	"\033[0;33m"
+#  define CYELLOW	"\033[0;32m"
+#  define CRED		"\033[0;31m"
+#  define CGREENB	"\033[1;33m"
+#  define CYELLOWB	"\033[1;32m"
+#  define CREDB		"\033[1;31m"
+#  define CNIL		"\033[0;0m"
+# endif
 
 # define XC_EXIT	0
 # define XC_ERROR	1
@@ -117,6 +128,10 @@ t_vec2i	project_point(int x, int y, t_fdf fdf);
 
 void	gui_put_text(t_vars *v);
 void	draw_gui(t_img *img);
+
+/*/ Error //////////////*/
+
+int	perr_badmap(char *fname);
 
 /*/ Color //////////////*/
 

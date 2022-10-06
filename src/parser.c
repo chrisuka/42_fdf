@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 21:34:02 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:29:00 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,31 @@ static t_fdf	initialize_fdf_data(void)
 
 #if 1
 
-static t_fdf	abort_parse(t_fdf *fdf)
+static char		**free_strstr(char ***words)
 {
-	ft_freearray ((void **)&fdf->map, fdf->h);
+	int	n;
+
+	n = 0;
+	while ((*words)[n] != NULL)
+	{
+		free ((*words)[n]);
+		++ n;
+	}
+	free (*words);
+	return (*words);
+}
+
+static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
+{
 	fdf->signal = SIG_ERROR;
+	perr_badmap (fname);
 	return (*fdf);
 }
 
-static int	read_height(char *fname, int *lines)
+/* Read through the file once to count the amount of line breaks
+ * then re-open it and return the FD
+*/
+static int	first_pass(char *fname, int *lines)
 {
 	int		fd;
 	char	buf[BUFF_SIZE];
@@ -66,18 +83,22 @@ static int	parse_line(char *line, int y, int **map)
 	words = ft_strsplit (line, ' ');
 	if (!words)
 		return (-1);
-	
 	x = 0;
 	while (words[x] != NULL)
 		++ x;
 	map[y] = (int *)malloc(sizeof(int) * x);
+	if (!map[y])
+	{
+		//ft_freearray((void **)&words, /* HEY!? */);
+		return (-1);
+	}
 	x = 0;
 	while (words[x] != NULL)
 	{
 		map[y][x] = ft_atoi(words[x]);
 		++ x;
 	}
-	free (words);
+	words = free_strstr(&words);
 	return (x);
 }
 
@@ -89,25 +110,20 @@ t_fdf	parse_map_file(char *fname)
 	int		y;
 	
 	fdf = initialize_fdf_data();
-	fd = read_height (fname, &fdf.h);
+	fd = first_pass (fname, &fdf.h);
 	if (fd < 0)
-	{
-		ft_putendl("bad file!");
-		return (abort_parse(&fdf));
-	}
+		return (abort_parse(&fdf, fname));
 	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	y = 0;
-	while (get_next_line(fd, &line) != RET_EOF)
+	while (get_next_line(fd, &line) != RET_EOF) // handle errors !
 	{
 		if (y == 0)
 			fdf.w = ft_wordcount(line, " ");
 		if (parse_line (line, y++, fdf.map) != fdf.w)
-		{
-			ft_putendl("inconsistent width!");
-			return (abort_parse(&fdf));
-		}
+			return (abort_parse(&fdf, fname));
 		ft_strdel (&line);
 	}
+	ft_strdel (&line);
 	return (fdf);
 }
 
