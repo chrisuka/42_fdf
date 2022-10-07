@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/06 20:29:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/07 16:00:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,15 @@ static t_fdf	initialize_fdf_data(void)
 	t_fdf	fdf;
 
 	fdf.signal = SIG_CONT;
-	fdf.map = NULL; // REMEMBER ME....
+	fdf.map = NULL;
 	fdf.w = 0;
 	fdf.h = 0;
 	fdf.xpos = 0;
 	fdf.ypos = 0;
-	//fdf.amplitude = 0.25f;
 	fdf.amplitude = 0.15f;
 	fdf.scale = 25;
 	fdf.projection = 1;
 	return (fdf);
-}
-
-#if 1
-
-static char		**free_strstr(char ***words)
-{
-	int	n;
-
-	n = 0;
-	while ((*words)[n] != NULL)
-	{
-		free ((*words)[n]);
-		++ n;
-	}
-	free (*words);
-	return (*words);
 }
 
 static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
@@ -75,6 +58,7 @@ static int	first_pass(char *fname, int *lines)
 	return (fd);
 }
 
+#include <stdio.h>
 static int	parse_line(char *line, int y, int **map)
 {
 	char	**words;
@@ -89,7 +73,7 @@ static int	parse_line(char *line, int y, int **map)
 	map[y] = (int *)malloc(sizeof(int) * x);
 	if (!map[y])
 	{
-		//ft_freearray((void **)&words, /* HEY!? */);
+		//ft_freearray((void **)(&words), /* HEY!? */);
 		return (-1);
 	}
 	x = 0;
@@ -98,61 +82,47 @@ static int	parse_line(char *line, int y, int **map)
 		map[y][x] = ft_atoi(words[x]);
 		++ x;
 	}
-	words = free_strstr(&words);
+	printf("x: %i\n", x);
+	ft_freearray ((void **)(&words), x);
 	return (x);
 }
 
+/* DO NOT TOUCH THE ELDRITCH ABOMINATION
+ * DO
+ * NOT
+ * leave it alone
+*/
 t_fdf	parse_map_file(char *fname)
 {
 	t_fdf	fdf;
 	char	*line;
 	int		fd;
 	int		y;
-	
+
 	fdf = initialize_fdf_data();
 	fd = first_pass (fname, &fdf.h);
+	printf("h: %i\n", fdf.h);
 	if (fd < 0)
 		return (abort_parse(&fdf, fname));
 	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF) // handle errors !
 	{
+		//if (gnl == RET_ERROR)
+		//	return (abort_parse(&fdf, fname));
+		printf("y: %i   ", y);
 		if (y == 0)
+		{
 			fdf.w = ft_wordcount(line, " ");
+			printf("fdf.w: %i   ", fdf.w);
+		}
 		if (parse_line (line, y++, fdf.map) != fdf.w)
+		{
+			ft_putendl("inconsistent width");
 			return (abort_parse(&fdf, fname));
+		}
 		ft_strdel (&line);
 	}
 	ft_strdel (&line);
 	return (fdf);
 }
-
-#else
-t_fdf	parse_map_file(char *fname)
-{
-	const int	w = 10;
-	const int	h = 7;
-	const int	map[h][w] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-							 {0,10, 0,10, 0, 0,10,10,10, 0},
-							 {0,10, 0,10, 0, 0, 0, 0,10, 0},
-							 {0,10,10,10, 0, 0,10,10,10, 0},
-							 {0, 0, 0,10, 0, 0,10, 0, 0, 0},
-							 {0, 0, 0,10, 0, 0,10,10,10, 0},
-							 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-	t_fdf		fdf;
-
-	fname = NULL;
-	fdf = initialize_fdf_data();
-	fdf.w = w;
-	fdf.h = h;
-	fdf.map = (int **)malloc(sizeof(int *) * w);
-	for (int x = 0; x < w; x++)
-	{
-		fdf.map[x] = (int *)malloc(sizeof(int) * h);
-		for (int y = 0; y < h; y++)
-			fdf.map[x][y] = map[y][x];
-	}
-	return (fdf);
-}
-
-#endif

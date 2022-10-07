@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:46:50 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 16:00:00 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:49:07 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define RET_EOF	0
 # define RET_ERROR	-1
 
-# define BUFF_SIZE 32
+# define BUFF_SIZE 1
 # define FD_MAX 8192
 
 typedef unsigned char	t_bool;

@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/06 20:00:16 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:06:26 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	print_map(int **map, int w, int h)
 }
 #endif
 
-#include <stdio.h>
 int	main(int argc, char **argv)
 {
 	char	*wname;
