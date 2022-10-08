@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/07 16:00:37 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/08 16:30:49 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,21 @@ static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
 static int	first_pass(char *fname, int *lines)
 {
 	int		fd;
-	char	buf[BUFF_SIZE];
-	ssize_t	bs;
+	int		wc;
+	char	*line;
 
 	fd = open (fname, O_RDONLY);
-	bs = 1;
-	while (bs)
+	while (get_next_line(fd, &line) != RET_EOF)
 	{
-		bs = read (fd, buf, BUFF_SIZE);
-		if (bs < 0)
+		if (line == NULL)
 			return (-1);
-		*lines += (ft_memchr(buf, '\n', bs) != NULL);
+		wc = ft_wordcount(line, " ");
+		ft_strdel (&line);
+		if (wc < 2)
+			return (-1);
+		++ *lines;
 	}
+	ft_strdel (&line);
 	close (fd);
 	fd = open (fname, O_RDONLY);
 	return (fd);
@@ -71,6 +74,7 @@ static int	parse_line(char *line, int y, int **map)
 	while (words[x] != NULL)
 		++ x;
 	map[y] = (int *)malloc(sizeof(int) * x);
+	printf("map y: %p\n", map[y]);
 	if (!map[y])
 	{
 		//ft_freearray((void **)(&words), /* HEY!? */);
@@ -102,7 +106,7 @@ t_fdf	parse_map_file(char *fname)
 	fdf = initialize_fdf_data();
 	fd = first_pass (fname, &fdf.h);
 	printf("h: %i\n", fdf.h);
-	if (fd < 0)
+	if (fd < 0 || fdf.h < 2)
 		return (abort_parse(&fdf, fname));
 	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
 	y = 0;
@@ -110,8 +114,9 @@ t_fdf	parse_map_file(char *fname)
 	{
 		//if (gnl == RET_ERROR)
 		//	return (abort_parse(&fdf, fname));
+		printf("'%s'\n", line);
 		printf("y: %i   ", y);
-		if (y == 0)
+		if (fdf.w == 0)
 		{
 			fdf.w = ft_wordcount(line, " ");
 			printf("fdf.w: %i   ", fdf.w);
@@ -119,6 +124,7 @@ t_fdf	parse_map_file(char *fname)
 		if (parse_line (line, y++, fdf.map) != fdf.w)
 		{
 			ft_putendl("inconsistent width");
+			printf("'%s'\n", line);
 			return (abort_parse(&fdf, fname));
 		}
 		ft_strdel (&line);
