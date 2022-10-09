@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 15:19:39 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:11:50 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@ static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
 	return (*fdf);
 }
 
-/* Read through the file once to count the amount of line breaks
+/* Read through the file once to count the lines and width of the first line
  * then re-open it and return the FD
 */
-static int	first_pass(char *fname, int *lines)
+static inline int	first_pass(char *fname, int *width, int *rows)
 {
 	int		fd;
 	int		wc;
 	char	*line;
 
+	line = NULL;
 	fd = open (fname, O_RDONLY);
 	while (get_next_line(fd, &line) != RET_EOF)
 	{
@@ -53,8 +54,10 @@ static int	first_pass(char *fname, int *lines)
 		ft_strdel (&line);
 		if (wc < 2)
 			return (-1);
-		++ *lines;
-	} // GNL ERRORS!
+		if (*width == 0)
+			*width = wc;
+		++ *rows;
+	}
 	ft_strdel (&line);
 	close (fd);
 	fd = open (fname, O_RDONLY);
@@ -74,7 +77,7 @@ static int	parse_line(char *line, int y, int **map)
 		++ x;
 	map[y] = (int *)ft_memalloc(sizeof(int) * x);
 	x = -1;
-	if (map[y])
+	if (map[y] != NULL)
 	{
 		while (words[++x] != NULL)
 			map[y][x] = ft_atoi(words[x]);
@@ -91,22 +94,17 @@ t_fdf	parse_map_file(char *fname)
 	int		y;
 
 	fdf = initialize_fdf_data();
-	fd = first_pass (fname, &fdf.h);
-	if (fd < 0 || fdf.h < 2)
+	fd = first_pass (fname, &fdf.w, &fdf.h);
+	if (fd < 0 || fdf.w < 2 || fdf.h < 2)
 		return (abort_parse(&fdf, fname));
 	fdf.map = (int **)ft_memalloc(sizeof(int *) * fdf.h);
+	line = NULL;
 	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF) // handle errors !
 	{
-		//if (gnl == RET_ERROR)
-		//	return (abort_parse(&fdf, fname));
-		if (fdf.w == 0)
-		{
-			fdf.w = ft_wordcount(line, " ");
-		}
 		if (parse_line (line, y++, fdf.map) != fdf.w)
 		{
-			ft_putendl("inconsistent width");
+			ft_strdel (&line);
 			return (abort_parse(&fdf, fname));
 		}
 		ft_strdel (&line);

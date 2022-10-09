@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 15:18:39 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:56:23 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ static void	print_map(int **map, int w, int h)
 }
 #endif
 
-static t_vars	initialize_vars(void)
+static inline t_vars	initialize_vars(void)
 {
 	t_vars	v;
 
 	v.mlxo = NULL;
+	v.mlx_win = NULL;
+	v.fdf = (t_fdf){0};
+	v.img = (t_img){0};
+	v.sig = SIG_CONT;
+	v.uptime = 0;
 	return (v);
 }
 
@@ -52,7 +57,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (print_usage());
 	v = initialize_vars();
-	v.uptime = 0;
 	v.fdf = parse_map_file(argv[1]);
 	if (v.fdf.signal != SIG_CONT)
 		app_close (&v, XC_ERROR);

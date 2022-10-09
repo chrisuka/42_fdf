@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 15:15:45 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:00:18 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	app_close(t_vars *v, int code)
 	if (v->fdf.map)
 		ft_freearray((void **)&v->fdf.map, v->fdf.h);
 	if (v->mlxo)
-	{
-		ft_putendl("here");
 		mlx_destroy_window(v->mlxo, v->mlx_win);
-	}
 	v->mlxo = NULL;
 	v->mlx_win = NULL;
 	exit(code);
