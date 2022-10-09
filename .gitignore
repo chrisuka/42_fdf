@@ -18,3 +18,9 @@
 !libft/ft_*.c
 !libft/libft.h
 !libft/Makefile
+
+!fdf/obj/
+!fdf/obj/.gitinclude
+
+!fdf/libft/obj/
+!fdf/libft/obj/.gitinclude
