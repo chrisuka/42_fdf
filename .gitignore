@@ -1,18 +1,19 @@
 **
 !.gitignore
-!author
-!Makefile
+!fdf/
+!fdf/author
+!fdf/Makefile
 
-!eval_tests
-!eval_tests/*.test
-!eval_tests/testfiles
-!eval_tests/testfiles/*
+!fdf/eval_tests
+!fdf/eval_tests/*.test
+!fdf/eval_tests/testfiles
+!fdf/eval_tests/testfiles/*
 
-!src
-!src/*.c
+!fdf/src
+!fdf/src/*.c
 
-!include/
-!include/*.h
+!fdf/include/
+!fdf/include/*.h
 
 !libft
 !libft/ft_*.c
