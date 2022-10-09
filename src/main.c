@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:18:16 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:02:21 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static inline t_vars	initialize_vars(void)
 	v.mlx_win = NULL;
 	v.fdf = (t_fdf){0};
 	v.img = (t_img){0};
-	v.sig = SIG_CONT;
+	v.sig = ECONTINUE;
 	v.uptime = 0;
 	return (v);
 }
@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 		return (print_usage());
 	v = initialize_vars();
 	v.fdf = parse_map_file(argv[1]);
-	if (v.fdf.signal != SIG_CONT)
+	if (v.fdf.eparse != ECONTINUE)
 		app_close (&v, XC_ERROR);
 
 	v.mlxo = mlx_init();
@@ -59,8 +59,8 @@ int	main(int argc, char **argv)
 			&v.img.width, &v.img.endian);
 
 	mlx_hook(v.mlx_win, ON_KEYDOWN, XKMASK_KB, &on_keydown, &v);
-	mlx_key_hook (v.mlx_win, &handle_keyhook, &v);
-	mlx_loop_hook (v.mlxo, &app_update, &v);
+	mlx_key_hook (v.mlx_win, &on_keyup, &v);
+	mlx_loop_hook (v.mlxo, &on_render, &v);
 	mlx_loop (v.mlxo);
 	return (XC_EXIT);
 }

@@ -6,17 +6,18 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:18:32 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:41:27 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_fdf	initialize_fdf_data(void)
+static inline t_fdf	initialize_mapdata(char *fname)
 {
 	t_fdf	fdf;
 
-	fdf.signal = SIG_CONT;
+	fdf.fname = fname;
+	fdf.eparse = ECONTINUE;
 	fdf.map = NULL;
 	fdf.w = 0;
 	fdf.h = 0;
@@ -28,10 +29,10 @@ static t_fdf	initialize_fdf_data(void)
 	return (fdf);
 }
 
-static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
+static inline t_fdf	abort_parse(t_fdf *fdf, int code)
 {
-	fdf->signal = SIG_ERROR;
-	perr_badmap (fname); // Internal error
+	fdf->eparse = code;
+	perr_badmap (fdf->fname); // Internal error
 	return (*fdf);
 }
 
@@ -43,9 +44,11 @@ static inline int	first_pass(char *fname, int *width, int *rows)
 	int		fd;
 	int		wc;
 	char	*line;
+	int		y;
 
 	line = NULL;
 	fd = open (fname, O_RDONLY);
+	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF)
 	{
 		if (line == NULL)
@@ -54,7 +57,7 @@ static inline int	first_pass(char *fname, int *width, int *rows)
 		ft_strdel (&line);
 		if (wc < 2)
 			return (-1);
-		if (*width == 0)
+		if (y == 0)
 			*width = wc;
 		++ *rows;
 	}
@@ -93,10 +96,10 @@ t_fdf	parse_map_file(char *fname)
 	int		fd;
 	int		y;
 
-	fdf = initialize_fdf_data();
+	fdf = initialize_mapdata(fname);
 	fd = first_pass (fname, &fdf.w, &fdf.h);
-	if (fd < 0 || fdf.w < 2 || fdf.h < 2)
-		return (abort_parse(&fdf, fname));
+	if (fd < 0 || fdf.w < 2 || fdf.h < 2 || fdf.eparse != ECONTINUE)
+		return (abort_parse(&fdf, EPARSE));
 	fdf.map = (int **)ft_memalloc(sizeof(int *) * fdf.h);
 	line = NULL;
 	y = 0;
@@ -105,7 +108,7 @@ t_fdf	parse_map_file(char *fname)
 		if (parse_line (line, y++, fdf.map) != fdf.w)
 		{
 			ft_strdel (&line);
-			return (abort_parse(&fdf, fname));
+			return (abort_parse(&fdf, EPARSE));
 		}
 		ft_strdel (&line);
 	}

@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:42:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:19:41 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@
 # define XC_EXIT	0
 # define XC_ERROR	1
 
-# define SIG_CONT	0
-# define SIG_EXIT	1
-# define SIG_ERROR	2
+# define ECONTINUE	0
+# define EEXIT		1
+# define EPARSE		2
+# define EINTERNAL	3
 
 # define MOVE_STEP	30
 # define SIZE_STEP	5
 # define AMP_STEP	0.25f
 
-typedef struct s_fdf_data {
+typedef struct s_fdf_mapdata {
+	char	*fname;
 	int		**map;
 	int		w;
 	int		h;
@@ -54,7 +56,7 @@ typedef struct s_fdf_data {
 	float	amplitude;
 	int		scale;
 	int		projection;
-	int		signal;
+	int		eparse;
 }	t_fdf;
 
 typedef struct s_img_data {
@@ -96,8 +98,8 @@ t_fdf	parse_map_file(char *fname);
 /*/ App Control ////////*/
 
 int		on_keydown(int key, void *vars);
-int		app_update(void *vars);
-int		handle_keyhook(int keycode, void *vars);
+int		on_render(void *vars);
+int		on_keyup(int keycode, void *vars);
 void	app_close(t_vars *v, int code);
 
 /*/ Draw Manager ///////*/
@@ -122,10 +124,5 @@ void	draw_gui(t_img *img);
 /*/ Error //////////////*/
 
 int		perr_badmap(char *fname);
-
-/*/ Color //////////////*/
-
-t_uint	rgba_hex(int r, int g, int b, int a);
-t_uint	hsv_hex(float h, float s, float v);
 
 #endif

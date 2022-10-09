@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:19:18 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:14:27 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	on_keydown(int key, void *vars)
 	return (0);
 }
 
-int	handle_keyhook(int key, void *vars)
+int	on_keyup(int key, void *vars)
 {
 	t_vars	*v;
 
@@ -49,7 +49,7 @@ int	handle_keyhook(int key, void *vars)
 	return (0);
 }
 
-int	app_update(void *vars)
+int	on_render(void *vars)
 {
 	t_vars	*v;
 

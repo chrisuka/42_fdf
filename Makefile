@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/10/09 17:54:08 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/10/09 18:19:57 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= fdf
 BIN		= $(ROOT)$(NAME)
 
 CFUNC	=\
-main parser app_control draw_util draw_man projection gui color error \
+main parser app_control draw_util draw_man projection gui error \
 get_next_line
 
 SRC_DIR		= $(ROOT)src/
