@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/08 16:30:49 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:19:39 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_fdf	initialize_fdf_data(void)
 static inline t_fdf	abort_parse(t_fdf *fdf, char *fname)
 {
 	fdf->signal = SIG_ERROR;
-	perr_badmap (fname);
+	perr_badmap (fname); // Internal error
 	return (*fdf);
 }
 
@@ -54,14 +54,13 @@ static int	first_pass(char *fname, int *lines)
 		if (wc < 2)
 			return (-1);
 		++ *lines;
-	}
+	} // GNL ERRORS!
 	ft_strdel (&line);
 	close (fd);
 	fd = open (fname, O_RDONLY);
 	return (fd);
 }
 
-#include <stdio.h>
 static int	parse_line(char *line, int y, int **map)
 {
 	char	**words;
@@ -73,29 +72,17 @@ static int	parse_line(char *line, int y, int **map)
 	x = 0;
 	while (words[x] != NULL)
 		++ x;
-	map[y] = (int *)malloc(sizeof(int) * x);
-	printf("map y: %p\n", map[y]);
-	if (!map[y])
+	map[y] = (int *)ft_memalloc(sizeof(int) * x);
+	x = -1;
+	if (map[y])
 	{
-		//ft_freearray((void **)(&words), /* HEY!? */);
-		return (-1);
+		while (words[++x] != NULL)
+			map[y][x] = ft_atoi(words[x]);
 	}
-	x = 0;
-	while (words[x] != NULL)
-	{
-		map[y][x] = ft_atoi(words[x]);
-		++ x;
-	}
-	printf("x: %i\n", x);
 	ft_freearray ((void **)(&words), x);
 	return (x);
 }
 
-/* DO NOT TOUCH THE ELDRITCH ABOMINATION
- * DO
- * NOT
- * leave it alone
-*/
 t_fdf	parse_map_file(char *fname)
 {
 	t_fdf	fdf;
@@ -105,26 +92,21 @@ t_fdf	parse_map_file(char *fname)
 
 	fdf = initialize_fdf_data();
 	fd = first_pass (fname, &fdf.h);
-	printf("h: %i\n", fdf.h);
 	if (fd < 0 || fdf.h < 2)
 		return (abort_parse(&fdf, fname));
-	fdf.map = (int **)malloc(sizeof(int *) * fdf.h);
+	fdf.map = (int **)ft_memalloc(sizeof(int *) * fdf.h);
 	y = 0;
 	while (get_next_line(fd, &line) != RET_EOF) // handle errors !
 	{
 		//if (gnl == RET_ERROR)
 		//	return (abort_parse(&fdf, fname));
-		printf("'%s'\n", line);
-		printf("y: %i   ", y);
 		if (fdf.w == 0)
 		{
 			fdf.w = ft_wordcount(line, " ");
-			printf("fdf.w: %i   ", fdf.w);
 		}
 		if (parse_line (line, y++, fdf.map) != fdf.w)
 		{
 			ft_putendl("inconsistent width");
-			printf("'%s'\n", line);
 			return (abort_parse(&fdf, fname));
 		}
 		ft_strdel (&line);

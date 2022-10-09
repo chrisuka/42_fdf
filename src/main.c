@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/07 15:06:26 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:18:39 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ static void	print_map(int **map, int w, int h)
 }
 #endif
 
+static t_vars	initialize_vars(void)
+{
+	t_vars	v;
+
+	v.mlxo = NULL;
+	return (v);
+}
+
 int	main(int argc, char **argv)
 {
 	char	*wname;
@@ -43,6 +51,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (print_usage());
+	v = initialize_vars();
 	v.uptime = 0;
 	v.fdf = parse_map_file(argv[1]);
 	if (v.fdf.signal != SIG_CONT)
@@ -52,6 +61,8 @@ int	main(int argc, char **argv)
 	v.mlxo = mlx_init();
 
 	wname = ft_strjoin (WIN_TITLE " : ", argv[1]);
+	if (!wname)
+		return (-1); // error_internal
 	v.mlx_win = mlx_new_window(v.mlxo, WIN_RESX, WIN_RESY, wname);
 	ft_strdel (&wname);
 

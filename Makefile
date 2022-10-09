@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/10/07 21:54:21 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/10/09 02:04:34 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LIBFT		= -L libft -lft
 MLX			= -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 CFLAGS		= -Wall -Wextra -Werror
-DBFLAGS		= -g #-fsanitize=address #-Wimplicit -Wconversion 
+DBFLAGS		= -g -fsanitize=address #-Wimplicit -Wconversion 
 CC			:= clang
 
 .PHONY: all clean fclean re db debug so
