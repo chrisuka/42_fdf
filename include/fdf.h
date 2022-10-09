@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 20:48:58 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:50:35 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,12 @@
 # include <mlx.h>
 # include "libft.h"
 # include "get_next_line.h"
+# include "graphics_util.h"
 
 # define BIN_NAME	"fdf"
 # define WIN_TITLE	"FdF"
 # define WIN_RESX	1080
 # define WIN_RESY	740
-
-# ifndef CLI_COLORS
-#  define CLI_COLORS
-#  define CYELLOW	"\033[0;33m"
-#  define CGREEN	"\033[0;32m"
-#  define CRED		"\033[0;31m"
-#  define CYELLOWB	"\033[1;33m"
-#  define CGREENB	"\033[1;32m"
-#  define CREDB		"\033[1;31m"
-#  define CNIL		"\033[0;0m"
-# endif
 
 # define XC_EXIT	0
 # define XC_ERROR	1

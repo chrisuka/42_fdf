@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 20:41:41 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:50:39 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	draw_line(t_img *img, t_line ln)
 	y = (double)(ln.y0);
 	while (steps-- >= 0)
 	{
-		set_pixel (img, (int)(x), (int)(y), 0x00FF00AA);
+		set_pixel (img, (int)(x), (int)(y), MAP_COLOR);
 		x += dx;
 		y += dy;
 	}
