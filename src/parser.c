@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 19:41:27 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:02:30 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static inline t_fdf	initialize_mapdata(char *fname)
 	t_fdf	fdf;
 
 	fdf.fname = fname;
-	fdf.eparse = ECONTINUE;
 	fdf.map = NULL;
 	fdf.w = 0;
 	fdf.h = 0;
@@ -26,13 +25,14 @@ static inline t_fdf	initialize_mapdata(char *fname)
 	fdf.amplitude = 0.15f;
 	fdf.scale = 25;
 	fdf.projection = 1;
+	fdf.eparse = ECONTINUE;
 	return (fdf);
 }
 
 static inline t_fdf	abort_parse(t_fdf *fdf, int code)
 {
 	fdf->eparse = code;
-	perr_badmap (fdf->fname); // Internal error
+	perr_badmap (fdf->fname);
 	return (*fdf);
 }
 

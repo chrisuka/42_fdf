@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 18:14:27 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:19:53 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	on_render(void *vars)
 	t_vars	*v;
 
 	v = (t_vars *)(vars);
-	ft_bzero (v->img.addr, (WIN_RESX * WIN_RESY) * (v->img.bpp / 8));
+	ft_bzero (v->img.addr, (WIN_RESX * WIN_RESY) * v->img.bpp);
 	draw_map(&v->img, v->fdf);
 	draw_gui (&v->img);
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);

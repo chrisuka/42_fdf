@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:59:31 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/06 13:27:55 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:41:41 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	set_pixel(t_img *img, int x, int y, unsigned int color)
 
 	if (!inside_frame(x, y))
 		return ;
-	px = img->addr + (y * img->width + x * (img->bpp / __CHAR_BIT__));
+	px = img->addr + (y * img->width + x * img->bpp);
 	*(unsigned int *)(px) = color;
 }
 
@@ -32,7 +32,7 @@ void	set_pixel(t_img *img, int x, int y, unsigned int color)
  * (Digital Differential Analyzer) algorithm:
  * determine the number of steps as the larger of delta x and delta y
  *
- * dx / steps and dy / steps will be their respective increment values
+ * dx / steps and dy / steps will be the axis' respective increment values
  * each step, increment xy and round to int to find the next pixel
 */
 void	draw_line(t_img *img, t_line ln)
