@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 18:19:41 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:43:54 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 
 # ifndef CLI_COLORS
 #  define CLI_COLORS
-#  define CGREEN	"\033[0;33m"
-#  define CYELLOW	"\033[0;32m"
+#  define CYELLOW	"\033[0;33m"
+#  define CGREEN	"\033[0;32m"
 #  define CRED		"\033[0;31m"
-#  define CGREENB	"\033[1;33m"
-#  define CYELLOWB	"\033[1;32m"
+#  define CYELLOWB	"\033[1;33m"
+#  define CGREENB	"\033[1;32m"
 #  define CREDB		"\033[1;31m"
 #  define CNIL		"\033[0;0m"
 # endif
@@ -68,16 +68,15 @@ typedef struct s_img_data {
 }	t_img;
 
 typedef struct s_vars_data_container {
-	size_t	uptime;
-	int		sig;
 	void	*mlxo;
 	void	*mlx_win;
-
 	t_fdf	fdf;
 	t_img	img;
+
+	size_t	uptime;
 }	t_vars;
 
-typedef struct s_vector2int
+typedef struct s_vector2d
 {
 	int	x;
 	int	y;
@@ -124,5 +123,6 @@ void	draw_gui(t_img *img);
 /*/ Error //////////////*/
 
 int		perr_badmap(char *fname);
+int		perr_internal(void);
 
 #endif
