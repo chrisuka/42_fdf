@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:28:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/03 20:24:29 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:24:36 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 
 /*/ EVENTS  /////////*/
 
-# define XKMASK_KB	(1L<<0)
+# define XKMASK_KB	1L
 
 enum {
 	ON_KEYDOWN		= 2,

@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 16:00:18 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:19:18 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ int	handle_keyhook(int key, void *vars)
 	v = (t_vars *)(vars);
 	if (key == KB_ESC)
 		app_close (v, XC_EXIT);
-#if 0
-	ft_putnbr(key);
-	ft_putendl("");
-#endif
 	if (key == KB_SPC)
 		v->fdf.projection = !v->fdf.projection;
 	return (0);
@@ -59,9 +55,7 @@ int	app_update(void *vars)
 
 	v = (t_vars *)(vars);
 	ft_bzero (v->img.addr, (WIN_RESX * WIN_RESY) * (v->img.bpp / 8));
-	//ft_memset (v->img.addr, 0xFF, v->img.width * WIN_RESY * v->img.bpp);
 	draw_map(&v->img, v->fdf);
-	// GUI
 	draw_gui (&v->img);
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 	gui_put_text (v);

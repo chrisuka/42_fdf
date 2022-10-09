@@ -6,36 +6,40 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 15:21:15 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/05 18:19:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:31:20 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_vec2i	project_parallel(int x, int y, t_fdf fdf)
+static t_v2d	project_parallel(int x, int y, t_fdf fdf)
 {
-	int	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
-	int	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
+	int	ox;
+	int	oy;
 
-	return ((t_vec2i){
+	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
+	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
+	return ((t_v2d){
 		ox + x * fdf.scale * 2 + (fdf.xpos),
 		oy + y * fdf.scale * 2 + (fdf.ypos)
 	});
 }
 
-static t_vec2i	project_isometric(int x, int y, t_fdf fdf)
+static t_v2d	project_isometric(int x, int y, t_fdf fdf)
 {
-	int	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
-	int	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
+	int	ox;
+	int	oy;
 
-	return ((t_vec2i){
+	ox = WIN_RESX / 2 - fdf.w * fdf.scale / 2;
+	oy = WIN_RESY / 2 - fdf.h * fdf.scale / 2;
+	return ((t_v2d){
 		ox + (x - y) * fdf.scale * 2 + (fdf.xpos),
 		oy + (y + x) * fdf.scale + (fdf.ypos)
 		- (int)(fdf.amplitude * fdf.map[y][x] * fdf.scale)
 	});
 }
 
-t_vec2i	project_point(int x, int y, t_fdf fdf)
+t_v2d	project_point(int x, int y, t_fdf fdf)
 {
 	if (fdf.projection == 1)
 		return (project_isometric(x, y, fdf));

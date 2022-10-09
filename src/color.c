@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:58:53 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/01 22:07:45 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:35:25 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,8 @@
 */
 unsigned int	rgba_hex(int r, int g, int b, int a)
 {
-	return (a << (__CHAR_BIT__ * 3) |
-			r << (__CHAR_BIT__ * 2) |
-			g << (__CHAR_BIT__ * 1) |
-			b);
-}
-
-/* Create an ARGB integer from Hue, Saturation and Value
- * using color space conversion
-*/
-unsigned int	hsv_hex(float h, float s, float v)
-{
-	h = 0;
-	s = 0;
-	v = 0;
-	return (rgba_hex(
-			255,
-			255,
-			255,
-			0));
-
-
-	/*	Whatever this means..
-	C = V × S
-	X = C × (1 - | (H / 60°) mod 2 - 1|)
-	m = V - C
-	(R, G, B) = ((R'+ m) ×255, (G'+ m) ×255, (B'+ m) ×255)
-	*/
+	return (a << (__CHAR_BIT__ * 3)
+		| r << (__CHAR_BIT__ * 2)
+		| g << (__CHAR_BIT__ * 1)
+		| b);
 }

@@ -6,7 +6,7 @@
 #    By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 16:57:32 by ikarjala          #+#    #+#              #
-#    Updated: 2022/10/09 02:04:34 by ikarjala         ###   ########.fr        #
+#    Updated: 2022/10/09 17:54:08 by ikarjala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,4 +85,4 @@ COL_NUL		:=\033[0;0m
 
 CMD_NORME	= norminette -R CheckForbiddenSourceHeader
 norme:
-	$(CMD_NORME) $(SRC_DIR)*.c $(SRC_DIR)*.h
+	$(CMD_NORME) $(INC_DIR)*.h $(SRC_DIR)*.c

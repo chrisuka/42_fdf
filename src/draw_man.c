@@ -6,13 +6,13 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 22:14:17 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/06 13:26:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:21:41 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_line	line_init(t_vec2i p0, t_vec2i p1)
+static t_line	line_init(t_v2d p0, t_v2d p1)
 {
 	t_line	ln;
 

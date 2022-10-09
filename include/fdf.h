@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 15:22:06 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:42:35 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define SIZE_STEP	5
 # define AMP_STEP	0.25f
 
-typedef struct	s_fdf_data {
+typedef struct s_fdf_data {
 	int		**map;
 	int		w;
 	int		h;
@@ -57,7 +57,7 @@ typedef struct	s_fdf_data {
 	int		signal;
 }	t_fdf;
 
-typedef struct	s_img_data {
+typedef struct s_img_data {
 	void	*o;
 	char	*addr;
 	int		bpp;
@@ -65,7 +65,7 @@ typedef struct	s_img_data {
 	int		endian;
 }	t_img;
 
-typedef struct	s_fdf_data_container {
+typedef struct s_vars_data_container {
 	size_t	uptime;
 	int		sig;
 	void	*mlxo;
@@ -75,23 +75,13 @@ typedef struct	s_fdf_data_container {
 	t_img	img;
 }	t_vars;
 
-typedef union	u_argb {
-	int	hex : 32;
-	struct s_palette {
-		int	b : 8;
-		int	g : 8;
-		int	r : 8;
-		int	a : 8;
-	}	col;
-}	t_argb;
-
-typedef struct	s_vector2int
+typedef struct s_vector2int
 {
 	int	x;
 	int	y;
-}	t_vec2i;
+}	t_v2d;
 
-typedef struct	s_line {
+typedef struct s_line {
 	int				x0;
 	int				y0;
 	int				x1;
@@ -105,10 +95,10 @@ t_fdf	parse_map_file(char *fname);
 
 /*/ App Control ////////*/
 
-int		on_keydown (int key, void *vars);
-int		app_update (void *vars);
-int		handle_keyhook (int keycode, void *vars);
-void	app_close (t_vars *v, int code);
+int		on_keydown(int key, void *vars);
+int		app_update(void *vars);
+int		handle_keyhook(int keycode, void *vars);
+void	app_close(t_vars *v, int code);
 
 /*/ Draw Manager ///////*/
 
@@ -122,7 +112,7 @@ void	draw_rect(t_img *img, t_rect r, int anchor, unsigned int color);
 
 /*/ Projection /////////*/
 
-t_vec2i	project_point(int x, int y, t_fdf fdf);
+t_v2d	project_point(int x, int y, t_fdf fdf);
 
 /*/ GUI ////////////////*/
 
@@ -131,11 +121,11 @@ void	draw_gui(t_img *img);
 
 /*/ Error //////////////*/
 
-int	perr_badmap(char *fname);
+int		perr_badmap(char *fname);
 
 /*/ Color //////////////*/
 
-unsigned int	rgba_hex(int r, int g, int b, int a);
-unsigned int	hsv_hex(float h, float s, float v);
+t_uint	rgba_hex(int r, int g, int b, int a);
+t_uint	hsv_hex(float h, float s, float v);
 
 #endif

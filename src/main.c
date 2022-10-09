@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 15:56:23 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:18:16 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ static inline int	print_usage(void)
 	write (2, msg, sizeof(msg) - 1);
 	return (XC_ERROR);
 }
-
-#if 0
-static void	print_map(int **map, int w, int h)
-{
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
-		{
-			ft_putnbr (map[y][x]);
-			ft_putchar (' ');
-		}
-		ft_putchar ('\n');
-	}
-}
-#endif
 
 static inline t_vars	initialize_vars(void)
 {
@@ -60,7 +45,6 @@ int	main(int argc, char **argv)
 	v.fdf = parse_map_file(argv[1]);
 	if (v.fdf.signal != SIG_CONT)
 		app_close (&v, XC_ERROR);
-	//else print_map(v.fdf.map, v.fdf.w, v.fdf.h); //DEBUG! GET RID OF THIS!
 
 	v.mlxo = mlx_init();
 

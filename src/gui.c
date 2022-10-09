@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:53:54 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 01:54:35 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:49:38 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	gui_put_text(t_vars *v)
 			"space: toggle projection"};
 	const char	*mode_txt[] = {"[] Parallel", "<> Isometric"};
 	char		*dystr;
-	int	n;
+	int			n;
 
 	n = -1;
 	while (++n < (int)(sizeof(texts) / sizeof(char *)))

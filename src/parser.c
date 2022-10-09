@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:41:12 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:11:50 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:18:32 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_fdf	parse_map_file(char *fname)
 	fdf.map = (int **)ft_memalloc(sizeof(int *) * fdf.h);
 	line = NULL;
 	y = 0;
-	while (get_next_line(fd, &line) != RET_EOF) // handle errors !
+	while (get_next_line(fd, &line) != RET_EOF)
 	{
 		if (parse_line (line, y++, fdf.map) != fdf.w)
 		{
