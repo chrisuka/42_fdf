@@ -6,8 +6,7 @@
 
 !fdf/eval_tests
 !fdf/eval_tests/*.test
-!fdf/eval_tests/testfiles
-!fdf/eval_tests/testfiles/*
+!fdf/eval_tests/*.fdf
 
 !fdf/src
 !fdf/src/*.c
