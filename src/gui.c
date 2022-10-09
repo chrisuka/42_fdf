@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:53:54 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 17:49:38 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:49:37 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	gui_put_text(t_vars *v)
 	while (++n < (int)(sizeof(texts) / sizeof(char *)))
 		mlx_string_put (v->mlxo, v->mlx_win, ox,
 			ox+ n * TEXT_ROWOFF, TEXT_COLOR, (char *)(texts[n]));
-	dystr = ft_itoa (v->uptime);
+	dystr = ft_itoa (v->frame);
 	put_dynamic_text(v, "Frame: ", &dystr, 0, 10);
 	put_dynamic_text(v, mode_txt[v->fdf.projection], &dystr, 0, 11);
 	dystr = ft_itoa (v->fdf.w);

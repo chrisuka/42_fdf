@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:55:03 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 20:44:13 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:50:06 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static inline t_vars	initialize_vars(void)
 	v.mlx_win = NULL;
 	v.fdf = (t_fdf){0};
 	v.img = (t_img){0};
-	v.uptime = 0;
+	v.frame = 0;
 	return (v);
 }
 

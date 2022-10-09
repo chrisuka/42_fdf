@@ -6,7 +6,7 @@
 /*   By: ikarjala <ikarjala@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 20:56:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 20:43:54 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:48:58 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_vars_data_container {
 	t_fdf	fdf;
 	t_img	img;
 
-	size_t	uptime;
+	size_t	frame;
 }	t_vars;
 
 typedef struct s_vector2d

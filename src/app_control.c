@@ -6,7 +6,7 @@
 /*   By: ikarjala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:16:52 by ikarjala          #+#    #+#             */
-/*   Updated: 2022/10/09 20:19:53 by ikarjala         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:49:20 by ikarjala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	on_render(void *vars)
 	draw_gui (&v->img);
 	mlx_put_image_to_window (v->mlxo, v->mlx_win, v->img.o, 0, 0);
 	gui_put_text (v);
-	v->uptime++;
+	v->frame ++;
 	return (0);
 }
